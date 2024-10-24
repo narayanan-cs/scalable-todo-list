@@ -1,8 +1,5 @@
 {"compilerOptions": {
     "rootDir": "./src/",
-    "paths": {
-     "@app/*": ["./*"],
-   },
    "module": "commonjs",
    "target": "es2017",
    "outDir": "./dist/",
@@ -10,11 +7,12 @@
    "removeComments": true,
    "preserveConstEnums": true,
    "sourceMap": true,
-   "composite": true
+   "composite": true,
+   "esModuleInterop": true
    },
-   "include":["src/**/*","tests/**/*"],
-   "exclude": ["../node_modules"],
-   "allowImportingTsExtensions": true
+   "include":["src/**/*.ts", "src/@types/**/*.d.ts"], // Include your custom types
+   "exclude": ["../node_modules","tests/**/*"],
+   "allowImportingTsExtensions": true,
    
  
  
