@@ -10,5 +10,5 @@
     "forceConsistentCasingInFileNames": true // Disallow inconsistently-cased references to the same file
   },
  "include":["src/**/*.ts", "src/@types/**/*.d.ts"], // Include your custom types
-   "exclude": ["./node_modules,../node_modules"],
+   "exclude": ["./node_modules,../node_modules,tests/**/*"],
 }

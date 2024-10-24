@@ -11,5 +11,13 @@ const UserSchema = new mongoose.Schema({
 
 UserSchema.plugin(mongooseElastic, { esClient: client, index: 'users' });
 
-const User = mongoose.model('User', UserSchema);
-export default User;
+const UserModel = mongoose.model('User', UserSchema);
+
+export interface User {
+    _id: string;
+    githubId: string;
+    username: string;
+    // Add other user properties as needed
+}
+
+export default UserModel;

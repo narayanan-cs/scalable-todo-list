@@ -8,6 +8,7 @@ import { body, validationResult, param } from 'express-validator';
 import dotenv from 'dotenv'; 
 import { configurePassport } from './config/passport'; // Adjust the path as needed
 import isAuthenticated from './middlewares/authentication';
+import {User} from './models/User'
 dotenv.config();
 
 process.on('uncaughtException', (err) => {
@@ -15,7 +16,12 @@ process.on('uncaughtException', (err) => {
 });
 
 const app = express();
-mongoose.connect(process.env.MONGO_URI)
+const mongoUri = process.env.MONGO_URI;
+
+if (!mongoUri) {
+    throw new Error('MONGO_URI environment variable is not defined');
+}
+mongoose.connect(mongoUri)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));	
 app.use(express.json());
@@ -68,10 +74,14 @@ function errorHandler(err: Error, req: Request, res: Response, next: NextFunctio
 app.use(express.json());
 
 // Route to get all todos
-app.get('/api/todos', isAuthenticated, async (req: Request, res: Response) => {
+app.get('/api/todos', isAuthenticated, async (req: Request, res: Response): Promise<void> => {
     try {
-	const userId = req.user['_id']
-console.log(req.user['_id'],"userId in gateway",userId)
+if (!req.user) {
+             res.status(401).json({ error: 'Unauthorized' });
+             return
+        }
+	const userId = (req.user as User)?._id
+console.log((req.user as User)?._id,"userId in gateway",userId)
         const response = await axios.get(`${TODO_SERVICE_URL}/api/todos?userId=${userId}`);
         res.json(response.data);
     } catch (error) {
@@ -98,7 +108,11 @@ app.post('/api/todos', isAuthenticated, validateTodo, async (req: Request, res: 
     }
 
     try {
-	req.body.userId = req.user['_id']
+if (!req.user) {
+            res.status(401).json({ error: 'Unauthorized' });
+            return
+        }
+	req.body.userId = (req.user as User)?._id
 console.log(req.body,"post request at gateway")	
         const response = await axios.post(`${TODO_SERVICE_URL}/api/todos`, req.body);
         res.status(201).json(response.data);
@@ -153,3 +167,5 @@ app.use(errorHandler);
 app.listen(PORT, () => {
     console.log(`API Gateway listening on port ${PORT}`);
 });
+module.exports = app
+export default app;

@@ -1,6 +1,6 @@
 const request = require('supertest');
 const nock = require('nock');
-const app = require('../src/app'); // Adjust the path to your app file
+const app = require('../src/gateway.ts'); // Adjust the path to your app file
 const mongoose = require('mongoose');
 
 describe('Todo API', () => {
@@ -32,7 +32,7 @@ describe('Todo API', () => {
         // Capture the cookie
         const cookieHeader = loginResponse.headers['set-cookie'];
         if (cookieHeader) {
-            cookie = decodeURIComponent(cookieHeader.map(c => c.split(';')[0]).join('; '));
+            cookie = decodeURIComponent(cookieHeader.map((c:string) => c.split(';')[0]).join('; '));
         } else {
             throw new Error('Authentication failed: No cookie returned');
         }
@@ -53,7 +53,7 @@ describe('Todo API', () => {
 		    email: 'test@gmail.com',	
                     title: 'Test Todo',
                     completed: false,
-                },15000);
+                });
 
             expect(response.statusCode).toBe(201);
             expect(response.body).toHaveProperty('_id');
@@ -61,7 +61,7 @@ describe('Todo API', () => {
             expect(response.body.completed).toBe(false);
             
             todoId = response.body['_id']; // Store the ID for future tests
-        });
+        },20000);
 
         // Test fetching the todo
         it('should fetch the todo by ID', async () => {
@@ -93,7 +93,7 @@ describe('Todo API', () => {
             expect(response.statusCode).toBe(200);
             expect(response.body.title).toBe('Updated Test Todo');
             expect(response.body.completed).toBe(true);
-        });
+        },20000);
 
         // Test deleting the todo
         it('should delete the todo', async () => {
@@ -114,6 +114,6 @@ describe('Todo API', () => {
 		  res = "No todo found"	
 		}
             expect(res).toEqual("No todo found"); // Not found
-        });
+        },20000);
     });
 });
