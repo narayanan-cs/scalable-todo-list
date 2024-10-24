@@ -1,0 +1,1 @@
+Install LTS version of Apache Ignite in this directory
