@@ -66,6 +66,7 @@ export const updateTodo = async (req: Request, res: Response): Promise<void> => 
 
     if (!updatedTodo) {
         res.status(404).send('Todo not found');
+	return
     }
 
     // Update the cache
@@ -80,6 +81,7 @@ export const updateTodo = async (req: Request, res: Response): Promise<void> => 
     }
 
     res.json(updatedTodo);
+    return
 };
 
 export const deleteTodo = async (req: Request, res: Response): Promise<void> => {

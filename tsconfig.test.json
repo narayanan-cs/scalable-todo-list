@@ -1,9 +1,0 @@
-{
-    "extends": "./tsconfig.json", // Extend your main config
-    "compilerOptions": {
-        "strict": false, // Disable strict mode for tests
-        "noImplicitAny": false // Allow implicit 'any'
-    },
-    "include": ["tests/**/*.ts"], // Include your test files
-    "exclude": ["node_modules"]
-}
