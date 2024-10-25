@@ -1,5 +1,5 @@
+---
 name: CI
-
 on:
   push:
     branches:
@@ -7,22 +7,17 @@ on:
   pull_request:
     branches:
       - main
-
 jobs:
   build:
     runs-on: ubuntu-latest
-
     services:
       mongo:
         image: mongo:latest
         ports:
           - 27017:27017
         options: >
-          --health-cmd "mongo --eval 'db.adminCommand(\"ping\")'" 
-          --health-interval 10s 
-          --health-timeout 5s 
-          --health-retries 5
-
+          --health-cmd "mongo --eval 'db.adminCommand(\"ping\")" \
+          --health-interval 10s \ --health-timeout 5s \ --health-retries 5
       elasticsearch:
         image: elasticsearch:latest
         ports:
@@ -30,11 +25,8 @@ jobs:
         env:
           discovery.type: single-node
         options: >
-          --health-cmd "curl -f http://localhost:9200/" 
-          --health-interval 10s 
-          --health-timeout 5s 
-          --health-retries 5
-
+          --health-cmd "curl -f http://localhost:9200/" \ --health-interval 10s \
+          --health-timeout 5s \ --health-retries 5
       kibana:
         image: kibana:latest
         ports:
@@ -42,40 +34,31 @@ jobs:
         env:
           ELASTICSEARCH_URL: http://elasticsearch:9200
         options: >
-          --health-cmd "curl -f http://localhost:5601/api/status" 
-          --health-interval 10s 
-          --health-timeout 5s 
-          --health-retries 5
-
+          --health-cmd "curl -f http://localhost:5601/api/status" \
+          --health-interval 10s \ --health-timeout 5s \ --health-retries 5
       ignite:
         image: apacheignite/ignite:latest
         ports:
           - 10800:10800
         options: >
-          --health-cmd "curl -f http://localhost:10800/ignite" 
-          --health-interval 10s 
-          --health-timeout 5s 
-          --health-retries 5
-
+          --health-cmd "curl -f http://localhost:10800/ignite" \
+          --health-interval 10s \ --health-timeout 5s \ --health-retries 5
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20'
-
+          node-version: "20"
       - name: Install dependencies
         run: yarn install
-
       - name: Run tests
         env:
-          MONGO_URI: mongodb://localhost:27017/todo # Use your MongoDB URI
-          ELASTICSEARCH_URL: http://localhost:9200 # Elasticsearch endpoint
-          KIBANA_URL: http://localhost:5601 # Kibana endpoint
-          IGNITE_URL: http://localhost:10800 # Apache Ignite endpoint
-          GITHUB_CLIENT_ID: ${{ secrets.GITHUB_CLIENT_ID }} # Your GitHub OAuth client ID
-          GITHUB_CLIENT_SECRET: ${{ secrets.GITHUB_CLIENT_SECRET }} # Your GitHub OAuth client secret
-          SESSION_SECRET: ${{ secrets.SESSION_SECRET }} # Your session secret
+          MONGO_URI: mongodb://localhost:27017/todo
+          ELASTICSEARCH_URL: http://localhost:9200
+          KIBANA_URL: http://localhost:5601
+          IGNITE_URL: http://localhost:10800
+          GITHUB_CLIENT_ID: ${{ secrets.GITHUB_CLIENT_ID }}
+          GITHUB_CLIENT_SECRET: ${{ secrets.GITHUB_CLIENT_SECRET }}
+          SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
         run: yarn test
