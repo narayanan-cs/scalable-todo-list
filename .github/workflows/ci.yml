@@ -7,7 +7,6 @@ on:
   pull_request:
     branches:
       - main
-  workflow_dispatch:  # This allows manual triggers
 
 jobs:
   build:
@@ -18,8 +17,6 @@ jobs:
         image: mongo:latest
         ports:
           - 27017:27017
-        env:
-          MONGO_INITDB_DATABASE: todo # Specify your database name
         options: >
           --health-cmd "echo 'health check'"
           --health-interval 10s
@@ -74,7 +71,7 @@ jobs:
 
       - name: Run tests
         env:
-          MONGO_URI: mongodb://localhost:27017/your-database-name # Use your MongoDB URI
+          MONGO_URI: mongodb://localhost:27017/todo # Use your MongoDB URI
           ELASTICSEARCH_URL: http://localhost:9200 # Elasticsearch endpoint
           KIBANA_URL: http://localhost:5601 # Kibana endpoint
           IGNITE_URL: http://localhost:10800 # Apache Ignite endpoint
