@@ -7,7 +7,6 @@ on:
   pull_request:
     branches:
       - main
-  workflow_dispatch:  # This allows manual triggers
 
 jobs:
   build:
@@ -18,13 +17,7 @@ jobs:
         image: mongo:latest
         ports:
           - 27017:27017
-        env:
-          MONGO_INITDB_DATABASE: todo # Specify your database name
-        options: >
-          --health-cmd "mongo --eval 'db.adminCommand(\"ping\")'"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+        options: "--health-cmd='echo 'db.runCommand("ping").ok' | mongosh localhost:27017/todo --quiet' --health-interval=10s --health-timeout=5s --health-retries=5"
 
       elasticsearch:
         image: elasticsearch:latest
@@ -32,11 +25,7 @@ jobs:
           - 9200:9200
         env:
           discovery.type: single-node
-        options: >
-          --health-cmd "curl -f http://localhost:9200/"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+        options: "--health-cmd='curl -f http://localhost:9200/' --health-interval=10s --health-timeout=5s --health-retries=5"
 
       kibana:
         image: kibana:latest
@@ -44,21 +33,13 @@ jobs:
           - 5601:5601
         env:
           ELASTICSEARCH_URL: http://elasticsearch:9200
-        options: >
-          --health-cmd "curl -f http://localhost:5601/api/status"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+        options: "--health-cmd='curl -f http://localhost:5601/api/status' --health-interval=10s --health-timeout=5s --health-retries=5"
 
       ignite:
         image: apacheignite/ignite:latest
         ports:
           - 10800:10800
-        options: >
-          --health-cmd "curl -f http://localhost:10800/ignite"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+        options: "--health-cmd='curl -f http://localhost:10800/ignite' --health-interval=10s --health-timeout=5s --health-retries=5"
 
     steps:
       - name: Checkout code
@@ -74,11 +55,11 @@ jobs:
 
       - name: Run tests
         env:
-          MONGO_URI: mongodb://localhost:27017/your-database-name # Use your MongoDB URI
-          ELASTICSEARCH_URL: http://localhost:9200 # Elasticsearch endpoint
-          KIBANA_URL: http://localhost:5601 # Kibana endpoint
-          IGNITE_URL: http://localhost:10800 # Apache Ignite endpoint
-          GITHUB_CLIENT_ID: ${{ secrets.GITHUB_CLIENT_ID }} # Your GitHub OAuth client ID
-          GITHUB_CLIENT_SECRET: ${{ secrets.GITHUB_CLIENT_SECRET }} # Your GitHub OAuth client secret
-          SESSION_SECRET: ${{ secrets.SESSION_SECRET }} # Your session secret
+          MONGO_URI: mongodb://localhost:27017/todo
+          ELASTICSEARCH_URL: http://localhost:9200
+          KIBANA_URL: http://localhost:5601
+          IGNITE_URL: http://localhost:10800
+          GITHUB_CLIENT_ID: ${{ secrets.GITHUB_CLIENT_ID }}
+          GITHUB_CLIENT_SECRET: ${{ secrets.GITHUB_CLIENT_SECRET }}
+          SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
         run: yarn test
