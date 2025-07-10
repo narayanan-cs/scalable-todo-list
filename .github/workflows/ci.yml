@@ -18,7 +18,7 @@ jobs:
         ports:
           - 27017:27017
         options: >
-          --health-cmd='mongosh --quiet --eval "db.runCommand({ ping: 1 })" localhost:27017'
+          --health-cmd="bash -c 'echo > /dev/tcp/localhost/27017'"
           --health-interval 10s 
           --health-timeout 5s 
           --health-retries 5
