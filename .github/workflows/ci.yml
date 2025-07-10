@@ -42,7 +42,7 @@ jobs:
         image: apacheignite/ignite:2.16.0
         ports:
           - 10800:10800
-        options: "--health-cmd=\"bash -c 'echo >/dev/tcp/localhost/10800/ignite'\" --health-interval 10s --health-timeout 5s --health-retries 5"
+        options: "--health-cmd=\"bash -c 'echo >/dev/tcp/localhost/10800'\" --health-interval 10s --health-timeout 5s --health-retries 5"
 
     steps:
       - name: Checkout code
