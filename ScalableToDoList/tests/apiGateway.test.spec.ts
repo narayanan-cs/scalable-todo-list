@@ -2,7 +2,8 @@ const request = require('supertest');
 const nock = require('nock');
 const app = require('../src/gateway.ts'); // Adjust the path to your app file
 const mongoose = require('mongoose');
-
+process.env.CLIENT_ID = 'dummy';
+process.env.CLIENT_SECRET = 'dummy';
 describe('Todo API', () => {
     let cookie: string; // Declare the cookie variable here
     let todoId: string;
