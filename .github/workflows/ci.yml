@@ -76,16 +76,16 @@ jobs:
 
       - name: Debug Elasticsearch response
         run: |
-          curl -v http://localhost:9200 || echo "Elasticsearch not responding"
+          curl -v http://127.0.0.1:9200 || echo "Elasticsearch not responding"
+
+      - name: Show Elasticsearch logs
+        run: docker logs elasticsearch
 
       - name: Start Todo Service
         env:
           MONGO_URI: mongodb://localhost:27017/todo 
         working-directory: ./
         run: yarn start
-
-      - name: Show Elasticsearch logs
-        run: docker logs elasticsearch
 
       - name: Start API gateway
         env:
