@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 import User from '../models/User';
 
 require('dotenv').config(); // Load environment variable
-
+console.log(process.env.GITHUB_CLIENT_ID,process.env.GITHUB_CLIENT_SECRET,"SECRETS")
 export const configurePassport = ()=> {
 passport.use(new GitHubStrategy({
   clientID: process.env.GITHUB_CLIENT_ID,
