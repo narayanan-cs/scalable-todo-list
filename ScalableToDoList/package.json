@@ -33,6 +33,6 @@
         "dev": "ts-node src/gateway.ts",
         "watch": "tsc --watch",
         "lint": "eslint . --ext .ts",
-	"test": "jest",
+	"test": "jest"
     }
 }
