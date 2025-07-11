@@ -7,8 +7,8 @@ require('dotenv').config(); // Load environment variable
 
 export const configurePassport = ()=> {
 passport.use(new GitHubStrategy({
-  clientID: process.env.GITHUB_CLIENT_ID!,
-  clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+  clientID: process.env.GH_CLIENT_ID!,
+  clientSecret: process.env.GH_CLIENT_SECRET!,
   callbackURL: "/auth/github/callback"
 }, async (accessToken: any, refreshToken: any, profile: any, done: any) => {
   try {//console.log('Access Token:', accessToken)
