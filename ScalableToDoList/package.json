@@ -34,6 +34,6 @@
         "watch": "tsc --watch",
         "lint": "eslint . --ext .ts",
 	"test": "jest",
-        "test:ci": "npm --prefix ../ScalableToDoList start & npx wait-on http://localhost:4000 && jest"
+        "test:ci": "yarn build && npm --prefix ../ScalableToDoList start & npx wait-on http://localhost:4000 && jest"
     }
 }
