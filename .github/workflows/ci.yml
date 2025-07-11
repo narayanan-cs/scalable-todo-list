@@ -54,7 +54,12 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install dependencies
+      - name: Install ToDo Service dependencies
+        working-directory: ./
+        run: yarn install
+
+      - name: Install API Gateway dependencies
+        working-directory: ./ScalableToDoList
         run: yarn install
 
       - name: Run tests
@@ -67,4 +72,4 @@ jobs:
           GITHUB_CLIENT_SECRET: ${{ secrets.GH_CLIENT_SECRET }}
           SESSION_SECRET: ${{ vars.SESSION_SECRET }}
         run: yarn ci:test
-        working-directory: ScalableToDoList/ScalableToDoList
+        working-directory: ./ScalableToDoList
