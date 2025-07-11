@@ -66,13 +66,20 @@ jobs:
         working-directory: ./ScalableToDoList
         run: yarn build
 
-      - name: Check dist directory
+      - name: Build Todo Service
+        working-directory: ./
+        run: yarn build
+
+      - name: Start Todo Service
+        working-directory: ./
+        run: yarn start
+
+      - name: Start API gateway
         working-directory: ./ScalableToDoList
-        run: |
-          echo "Contents of dist:"
-          ls -lh dist || echo "dist folder missing!"
-          echo "Contents of src:"
-          ls -lh src || echo "src folder missing!"
+        run: yarn start
+
+      - name: Wait for services to be ready
+        run: npx wait-on http://localhost:9200 http://localhost:5601 http://localhost:10800
 
       - name: Run tests
         env:
@@ -83,5 +90,5 @@ jobs:
           GITHUB_CLIENT_ID: ${{ secrets.GH_CLIENT_ID }}
           GITHUB_CLIENT_SECRET: ${{ secrets.GH_CLIENT_SECRET }}
           SESSION_SECRET: ${{ vars.SESSION_SECRET }}
-        run: yarn ci:test
+        run: yarn test
         working-directory: ./ScalableToDoList
