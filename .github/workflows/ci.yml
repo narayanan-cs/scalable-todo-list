@@ -66,4 +66,4 @@ jobs:
           GITHUB_CLIENT_SECRET: ${{ secrets.GH_CLIENT_SECRET }}
           SESSION_SECRET: ${{ vars.SESSION_SECRET }}
         run: yarn test:ci
-        working-directory: ScalableToDoList/ScalableToDoList
+        working-directory: ScalableToDoList
