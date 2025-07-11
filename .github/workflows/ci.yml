@@ -76,10 +76,7 @@ jobs:
 
       - name: Debug Elasticsearch response
         run: |
-          curl -v http://127.0.0.1:9200 || echo "Elasticsearch not responding"
-
-      - name: Show Elasticsearch logs
-        run: docker logs elasticsearch
+          curl -4 http://127.0.0.1:9200 || echo "Elasticsearch not responding"
 
       - name: Start Todo Service
         env:
@@ -96,7 +93,7 @@ jobs:
       - name: Run tests
         env:
           MONGO_URI: mongodb://localhost:27017/todo
-          ELASTICSEARCH_URL: http://localhost:9200
+          ELASTICSEARCH_URL: http://127.0.0.1:9200
           KIBANA_URL: http://localhost:5601
           IGNITE_URL: http://localhost:10800
           GITHUB_CLIENT_ID: ${{ secrets.GH_CLIENT_ID }}
