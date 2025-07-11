@@ -4,11 +4,19 @@ import mongoose from 'mongoose';
 import User from '../models/User';
 
 require('dotenv').config(); // Load environment variable
-console.log(process.env.GITHUB_CLIENT_ID,process.env.GITHUB_CLIENT_SECRET,"SECRETS")
+const clientID = process.env.GITHUB_CLIENT_ID;
+if (!clientID) {
+  throw new Error("Missing GITHUB_CLIENT_ID");
+}
+const clientSecret = process.env.GITHUB_CLIENT_SECRET;
+if (!clientSecret) {
+  throw new Error("Missing GITHUB_CLIENT_SECRET");
+}
+
 export const configurePassport = ()=> {
 passport.use(new GitHubStrategy({
-  clientID: process.env.GITHUB_CLIENT_ID,
-  clientSecret: process.env.GITHUB_CLIENT_SECRET,
+  clientID,
+  clientSecret,
   callbackURL: "/auth/github/callback"
 }, async (accessToken: any, refreshToken: any, profile: any, done: any) => {
   try {//console.log('Access Token:', accessToken)
