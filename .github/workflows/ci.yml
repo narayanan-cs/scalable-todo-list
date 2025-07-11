@@ -62,6 +62,18 @@ jobs:
         working-directory: ./ScalableToDoList
         run: yarn install
 
+      - name: Build API Gateway
+        working-directory: ./ScalableToDoList
+        run: yarn build
+
+      - name: Check dist directory
+        working-directory: ./ScalableToDoList
+        run: |
+          echo "Contents of dist:"
+          ls -lh dist || echo "dist folder missing!"
+          echo "Contents of src:"
+          ls -lh src || echo "src folder missing!"
+
       - name: Run tests
         env:
           MONGO_URI: mongodb://localhost:27017/todo
