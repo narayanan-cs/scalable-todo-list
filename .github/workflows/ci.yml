@@ -70,16 +70,20 @@ jobs:
         working-directory: ./
         run: yarn build
 
+      - name: Wait for services to be ready
+        run: npx wait-on http://localhost:9200 http://localhost:5601 http://localhost:10800   
+
       - name: Start Todo Service
+        env:
+          MONGO_URI: mongodb://localhost:27017/todo 
         working-directory: ./
         run: yarn start
 
       - name: Start API gateway
+        env:
+          MONGO_URI: mongodb://localhost:27017/todo  
         working-directory: ./ScalableToDoList
         run: yarn start
-
-      - name: Wait for services to be ready
-        run: npx wait-on http://localhost:9200 http://localhost:5601 http://localhost:10800
 
       - name: Run tests
         env:
