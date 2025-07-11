@@ -74,11 +74,18 @@ jobs:
         run: |
           npx wait-on --timeout 60000 --verbose tcp:9200 http://localhost:5601 tcp:10800
 
+      - name: Debug Elasticsearch response
+        run: |
+          curl -v http://localhost:9200 || echo "Elasticsearch not responding"
+
       - name: Start Todo Service
         env:
           MONGO_URI: mongodb://localhost:27017/todo 
         working-directory: ./
         run: yarn start
+
+      - name: Show Elasticsearch logs
+        run: docker logs elasticsearch
 
       - name: Start API gateway
         env:
