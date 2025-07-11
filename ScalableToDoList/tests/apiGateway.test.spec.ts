@@ -1,5 +1,6 @@
 const request = require('supertest');
 const nock = require('nock');
+process.env.PORT = "3010";
 const app = require('../src/gateway.ts'); // Adjust the path to your app file
 const mongoose = require('mongoose');
 
