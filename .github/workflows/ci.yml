@@ -70,8 +70,9 @@ jobs:
         working-directory: ./
         run: yarn build
 
-      - name: Wait for services to be ready
-        run: npx wait-on --timeout 30000 --verbose http://localhost:9200 http://localhost:5601 http://localhost:10800 
+      - name: Wait for services (ES, Kibana, Ignite)
+        run: |
+          npx wait-on --timeout 60000 --verbose tcp:9200 http://localhost:5601 tcp:10800
 
       - name: Start Todo Service
         env:
