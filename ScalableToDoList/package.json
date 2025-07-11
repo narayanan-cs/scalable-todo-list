@@ -34,6 +34,6 @@
         "watch": "tsc --watch",
         "lint": "eslint . --ext .ts",
 	"test": "jest",
-        "ci:test": "yarn --cwd ../ build && yarn --cwd ../ start & yarn start & npx wait-on http://localhost:3000 http://localhost:4000 && yarn test"
+        "ci:test": "yarn --cwd ../ build && yarn --cwd ../ start & yarn start & npx wait-on http://localhost:3000 http://localhost:4000 http://localhost:9200 http://localhost:5601 http://localhost:10800 && yarn test"
     }
 }
