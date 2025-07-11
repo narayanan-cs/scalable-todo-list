@@ -95,7 +95,10 @@ jobs:
 
       - name: Start API gateway
         env:
-          MONGO_URI: mongodb://localhost:27017/todo  
+          MONGO_URI: mongodb://localhost:27017/todo
+          GITHUB_CLIENT_ID: ${{ secrets.GH_CLIENT_ID }}
+          GITHUB_CLIENT_SECRET: ${{ secrets.GH_CLIENT_SECRET }}
+          SESSION_SECRET: ${{ vars.SESSION_SECRET }}  
         working-directory: ./ScalableToDoList
         run: |
           yarn start &
