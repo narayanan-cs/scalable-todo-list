@@ -62,7 +62,8 @@ jobs:
           ELASTICSEARCH_URL: http://localhost:9200
           KIBANA_URL: http://localhost:5601
           IGNITE_URL: http://localhost:10800
-          GITHUB_CLIENT_ID: ${{ secrets.GITHUB_CLIENT_ID }}
-          GITHUB_CLIENT_SECRET: ${{ secrets.GITHUB_CLIENT_SECRET }}
-          SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+          GITHUB_CLIENT_ID: ${{ secrets.GH_CLIENT_ID }}
+          GITHUB_CLIENT_SECRET: ${{ secrets.GH_CLIENT_SECRET }}
+          SESSION_SECRET: ${{ vars.SESSION_SECRET }}
         run: yarn test:ci
+        working-directory: ScalableToDoList/ScalableToDoList

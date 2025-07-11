@@ -1,5 +1,5 @@
 {
-  "name": "ScalableToDoList",
+  "name": "ToDoListService",
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/narayanan-cs/scalable-todo-list.git",
@@ -32,6 +32,7 @@
     "test": "jest",
     "start": "node dist/server.js",
     "dev": "nodemon src/server.ts"
+    
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
