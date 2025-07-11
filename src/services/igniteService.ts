@@ -14,7 +14,8 @@ async function connect() {
         await igniteClient.connect(new IgniteClientConfiguration('127.0.0.1:10800'));
 
         console.log('Connected to Ignite server');
-        cache = await igniteClient.getOrCreateCache<string, any>('todosCache')
+       // cache = await igniteClient.getOrCreateCache<string, any>('todosCache')
+         cache = await igniteClient.getOrCreateCache('todosCache')
             
     }
 
