@@ -26,7 +26,9 @@ jobs:
           - 9200:9200
         env:
           discovery.type: single-node
-        options: "--health-cmd=\"bash -c 'echo > /dev/tcp/localhost/9200'\" --health-interval=10s --health-timeout=5s --health-retries=5"
+          xpack.security.enabled: false
+          xpack.security.http.ssl.enabled: false
+        options: "--health-cmd=\"bash -c 'curl -s http://localhost:9200 | grep cluster_name'\" --health-interval=10s --health-timeout=5s --health-retries=5"
 
       kibana:
         image: kibana:8.15.2
@@ -74,9 +76,14 @@ jobs:
         run: |
           npx wait-on --timeout 60000 --verbose tcp:9200 http://localhost:5601 tcp:10800
 
-      - name: Debug Elasticsearch response
+      - name: Wait for Elasticsearch HTTP readiness
         run: |
-          curl -4 http://127.0.0.1:9200 || echo "Elasticsearch not responding"
+          for i in {1..10}; do
+            echo "Waiting for ES..."
+            curl -s http://127.0.0.1:9200 && break
+            sleep 3
+          done
+
 
       - name: Start Todo Service
         env:
