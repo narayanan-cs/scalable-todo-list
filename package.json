@@ -27,7 +27,7 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"
   },
-  "scripts": {
+  "scripts":  {
     "build": "node_modules/.bin/tsc",
     "test": "jest",
     "start": "node dist/server.js",
