@@ -163,9 +163,10 @@ app.delete('/api/todos/:id', isAuthenticated, validateTodoId, async (req: Reques
 
 // Error handling middleware
 app.use(errorHandler);
-
+if (require.main === module) {
 app.listen(PORT, () => {
     console.log(`API Gateway listening on port ${PORT}`);
 });
+}
 module.exports = app
 export default app;

@@ -40,7 +40,9 @@ describe('Todo API', () => {
     });
 
     afterAll(async () => {
+        await mongoose.disconnect(); 
         nock.cleanAll(); // Clean all mocks
+
     });
 
     describe('CRUD Todo operations', () => {
